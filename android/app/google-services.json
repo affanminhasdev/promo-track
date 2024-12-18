@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "967152276842",
+    "project_id": "localeaz",
+    "storage_bucket": "localeaz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:967152276842:android:c9010f9b84b0a0c66f4113",
+        "android_client_info": {
+          "package_name": "com.boudjema.promotrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "967152276842-huj42cs9qsdqe831uqpb10fpbr8if6rc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.boudjema.promotrack",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "967152276842-8tqdp770lmlhne817b96v24n8q0drbgd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6ORVxlgYnDzRI9Et13H5IOvS5CGwcoAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "967152276842-4og3mc12p2dm1ru0ejnvkg81kf8l57mn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "967152276842-agvlpl8nmmnstvita2sh1bc8q7cffih7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sanskode.localeaz"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:967152276842:android:756b145e9f634a306f4113",
+        "android_client_info": {
+          "package_name": "com.sanskode.localeaz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "967152276842-mekgr3ehhi7jbb8cu42d0u4v6rqqa4ba.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sanskode.localeaz",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "967152276842-8tqdp770lmlhne817b96v24n8q0drbgd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6ORVxlgYnDzRI9Et13H5IOvS5CGwcoAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "967152276842-4og3mc12p2dm1ru0ejnvkg81kf8l57mn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "967152276842-agvlpl8nmmnstvita2sh1bc8q7cffih7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sanskode.localeaz"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
