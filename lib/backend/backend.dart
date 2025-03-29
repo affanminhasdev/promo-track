@@ -9,6 +9,7 @@ import 'schema/users_record.dart';
 import 'schema/offer_record.dart';
 import 'schema/shop_record.dart';
 import 'schema/advert_record.dart';
+import 'schema/advert_discovery_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -21,6 +22,7 @@ export 'schema/users_record.dart';
 export 'schema/offer_record.dart';
 export 'schema/shop_record.dart';
 export 'schema/advert_record.dart';
+export 'schema/advert_discovery_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -165,6 +167,43 @@ Future<List<AdvertRecord>> queryAdvertRecordOnce({
     queryCollectionOnce(
       AdvertRecord.collection,
       AdvertRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query AdvertDiscoveryRecords (as a Stream and as a Future).
+Future<int> queryAdvertDiscoveryRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      AdvertDiscoveryRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<AdvertDiscoveryRecord>> queryAdvertDiscoveryRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      AdvertDiscoveryRecord.collection,
+      AdvertDiscoveryRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<AdvertDiscoveryRecord>> queryAdvertDiscoveryRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      AdvertDiscoveryRecord.collection,
+      AdvertDiscoveryRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

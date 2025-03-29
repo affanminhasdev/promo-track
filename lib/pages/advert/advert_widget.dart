@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/component/navbar/navbar_widget.dart';
-import '/component/offer_card/offer_card_widget.dart';
+import '/components/navbar/navbar_widget.dart';
+import '/components/offer_card/offer_card_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -27,6 +27,9 @@ class AdvertWidget extends StatefulWidget {
   });
 
   final DocumentReference? advertRef;
+
+  static String routeName = 'Advert';
+  static String routePath = '/advert';
 
   @override
   State<AdvertWidget> createState() => _AdvertWidgetState();
@@ -303,6 +306,55 @@ class _AdvertWidgetState extends State<AdvertWidget>
                                                   likeable: true,
                                                   offer: offerCardOfferRecord,
                                                   isOwner: false,
+                                                  callback: () async {
+                                                    await offerCardOfferRecord
+                                                        .reference
+                                                        .update({
+                                                      ...mapToFirestore(
+                                                        {
+                                                          'click_nb': FieldValue
+                                                              .increment(1),
+                                                        },
+                                                      ),
+                                                    });
+                                                    await showModalBottomSheet(
+                                                      isScrollControlled: true,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            FocusScope.of(
+                                                                    context)
+                                                                .unfocus();
+                                                            FocusManager
+                                                                .instance
+                                                                .primaryFocus
+                                                                ?.unfocus();
+                                                          },
+                                                          child: Padding(
+                                                            padding: MediaQuery
+                                                                .viewInsetsOf(
+                                                                    context),
+                                                            child: Container(
+                                                              height: MediaQuery
+                                                                          .sizeOf(
+                                                                              context)
+                                                                      .height *
+                                                                  0.5,
+                                                              child:
+                                                                  ModalOfferDetailsWidget(
+                                                                offer:
+                                                                    offerCardOfferRecord,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ).then((value) =>
+                                                        safeSetState(() {}));
+                                                  },
                                                 ),
                                               );
                                             },

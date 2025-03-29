@@ -61,6 +61,11 @@ class UsersRecord extends FirestoreRecord {
   bool get isSignupDone => _isSignupDone ?? false;
   bool hasIsSignupDone() => _isSignupDone != null;
 
+  // "followed_brands" field.
+  List<DocumentReference>? _followedBrands;
+  List<DocumentReference> get followedBrands => _followedBrands ?? const [];
+  bool hasFollowedBrands() => _followedBrands != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _uid = snapshotData['uid'] as String?;
@@ -71,6 +76,7 @@ class UsersRecord extends FirestoreRecord {
     _photoUrl = snapshotData['photo_url'] as String?;
     _favorites = getDataList(snapshotData['favorites']);
     _isSignupDone = snapshotData['is_signup_done'] as bool?;
+    _followedBrands = getDataList(snapshotData['followed_brands']);
   }
 
   static CollectionReference get collection =>
@@ -146,7 +152,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.displayName == e2?.displayName &&
         e1?.photoUrl == e2?.photoUrl &&
         listEquality.equals(e1?.favorites, e2?.favorites) &&
-        e1?.isSignupDone == e2?.isSignupDone;
+        e1?.isSignupDone == e2?.isSignupDone &&
+        listEquality.equals(e1?.followedBrands, e2?.followedBrands);
   }
 
   @override
@@ -159,7 +166,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.displayName,
         e?.photoUrl,
         e?.favorites,
-        e?.isSignupDone
+        e?.isSignupDone,
+        e?.followedBrands
       ]);
 
   @override

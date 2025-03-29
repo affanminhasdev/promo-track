@@ -109,6 +109,16 @@ class OfferRecord extends FirestoreRecord {
   String get codePromo => _codePromo ?? '';
   bool hasCodePromo() => _codePromo != null;
 
+  // "is_trending" field.
+  bool? _isTrending;
+  bool get isTrending => _isTrending ?? false;
+  bool hasIsTrending() => _isTrending != null;
+
+  // "shop_distance_km" field.
+  double? _shopDistanceKm;
+  double get shopDistanceKm => _shopDistanceKm ?? 0.0;
+  bool hasShopDistanceKm() => _shopDistanceKm != null;
+
   void _initializeFields() {
     _title = snapshotData['title'] as String?;
     _endDate = snapshotData['end_date'] as DateTime?;
@@ -128,6 +138,8 @@ class OfferRecord extends FirestoreRecord {
     _link = snapshotData['link'] as String?;
     _clickNb = castToType<int>(snapshotData['click_nb']);
     _codePromo = snapshotData['code_promo'] as String?;
+    _isTrending = snapshotData['is_trending'] as bool?;
+    _shopDistanceKm = castToType<double>(snapshotData['shop_distance_km']);
   }
 
   static CollectionReference get collection =>
@@ -195,6 +207,12 @@ class OfferRecord extends FirestoreRecord {
             false,
           ),
           'code_promo': snapshot.data['code_promo'],
+          'is_trending': snapshot.data['is_trending'],
+          'shop_distance_km': convertAlgoliaParam(
+            snapshot.data['shop_distance_km'],
+            ParamType.double,
+            false,
+          ),
         },
         OfferRecord.collection.doc(snapshot.objectID),
       );
@@ -249,6 +267,8 @@ Map<String, dynamic> createOfferRecordData({
   String? link,
   int? clickNb,
   String? codePromo,
+  bool? isTrending,
+  double? shopDistanceKm,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -270,6 +290,8 @@ Map<String, dynamic> createOfferRecordData({
       'link': link,
       'click_nb': clickNb,
       'code_promo': codePromo,
+      'is_trending': isTrending,
+      'shop_distance_km': shopDistanceKm,
     }.withoutNulls,
   );
 
@@ -298,7 +320,9 @@ class OfferRecordDocumentEquality implements Equality<OfferRecord> {
         e1?.productImage == e2?.productImage &&
         e1?.link == e2?.link &&
         e1?.clickNb == e2?.clickNb &&
-        e1?.codePromo == e2?.codePromo;
+        e1?.codePromo == e2?.codePromo &&
+        e1?.isTrending == e2?.isTrending &&
+        e1?.shopDistanceKm == e2?.shopDistanceKm;
   }
 
   @override
@@ -320,7 +344,9 @@ class OfferRecordDocumentEquality implements Equality<OfferRecord> {
         e?.productImage,
         e?.link,
         e?.clickNb,
-        e?.codePromo
+        e?.codePromo,
+        e?.isTrending,
+        e?.shopDistanceKm
       ]);
 
   @override

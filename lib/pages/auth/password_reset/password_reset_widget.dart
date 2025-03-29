@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,9 @@ export 'password_reset_model.dart';
 
 class PasswordResetWidget extends StatefulWidget {
   const PasswordResetWidget({super.key});
+
+  static String routeName = 'PasswordReset';
+  static String routePath = '/passwordReset';
 
   @override
   State<PasswordResetWidget> createState() => _PasswordResetWidgetState();

@@ -5,6 +5,8 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
+import '/index.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +19,9 @@ export 'login_model.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});
+
+  static String routeName = 'Login';
+  static String routePath = '/login';
 
   @override
   State<LoginWidget> createState() => _LoginWidgetState();
@@ -182,6 +187,11 @@ class _LoginWidgetState extends State<LoginWidget>
                             child: TextFormField(
                               controller: _model.emailTextController,
                               focusNode: _model.textFieldFocusNode1,
+                              onChanged: (_) => EasyDebounce.debounce(
+                                '_model.emailTextController',
+                                Duration(milliseconds: 2000),
+                                () => safeSetState(() {}),
+                              ),
                               autofocus: false,
                               obscureText: false,
                               decoration: InputDecoration(
@@ -244,6 +254,11 @@ class _LoginWidgetState extends State<LoginWidget>
                             child: TextFormField(
                               controller: _model.passwordTextController,
                               focusNode: _model.textFieldFocusNode2,
+                              onChanged: (_) => EasyDebounce.debounce(
+                                '_model.passwordTextController',
+                                Duration(milliseconds: 2000),
+                                () => safeSetState(() {}),
+                              ),
                               onFieldSubmitted: (_) async {
                                 if (_model.formKey.currentState == null ||
                                     !_model.formKey.currentState!.validate()) {
@@ -336,7 +351,7 @@ class _LoginWidgetState extends State<LoginWidget>
                             onTap: () async {
                               HapticFeedback.selectionClick();
 
-                              context.pushNamed('PasswordReset');
+                              context.pushNamed(PasswordResetWidget.routeName);
                             },
                             child: Text(
                               'Mot de passe oublié ?',
@@ -361,31 +376,39 @@ class _LoginWidgetState extends State<LoginWidget>
                         padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 32.0),
                         child: FFButtonWidget(
-                          onPressed: () async {
-                            HapticFeedback.selectionClick();
-                            GoRouter.of(context).prepareAuthEvent();
+                          onPressed: ((_model.emailTextController.text ==
+                                          null ||
+                                      _model.emailTextController.text == '') ||
+                                  (_model.passwordTextController.text == null ||
+                                      _model.passwordTextController.text == ''))
+                              ? null
+                              : () async {
+                                  HapticFeedback.selectionClick();
+                                  GoRouter.of(context).prepareAuthEvent();
 
-                            final user = await authManager.signInWithEmail(
-                              context,
-                              _model.emailTextController.text,
-                              _model.passwordTextController.text,
-                            );
-                            if (user == null) {
-                              return;
-                            }
+                                  final user =
+                                      await authManager.signInWithEmail(
+                                    context,
+                                    _model.emailTextController.text,
+                                    _model.passwordTextController.text,
+                                  );
+                                  if (user == null) {
+                                    return;
+                                  }
 
-                            context.goNamedAuth(
-                              'Home',
-                              context.mounted,
-                              extra: <String, dynamic>{
-                                kTransitionInfoKey: TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType: PageTransitionType.scale,
-                                  alignment: Alignment.bottomCenter,
-                                ),
-                              },
-                            );
-                          },
+                                  context.goNamedAuth(
+                                    HomeWidget.routeName,
+                                    context.mounted,
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.scale,
+                                        alignment: Alignment.bottomCenter,
+                                      ),
+                                    },
+                                  );
+                                },
                           text: 'Connexion',
                           options: FFButtonOptions(
                             width: double.infinity,
@@ -407,6 +430,7 @@ class _LoginWidgetState extends State<LoginWidget>
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
+                            disabledColor: Color(0xFF838383),
                           ),
                         ),
                       ),
@@ -421,7 +445,7 @@ class _LoginWidgetState extends State<LoginWidget>
                         highlightColor: Colors.transparent,
                         onTap: () async {
                           context.goNamed(
-                            'Signup',
+                            SignupWidget.routeName,
                             extra: <String, dynamic>{
                               kTransitionInfoKey: TransitionInfo(
                                 hasTransition: true,
@@ -486,7 +510,7 @@ class _LoginWidgetState extends State<LoginWidget>
                             }
 
                             context.goNamedAuth(
-                              'Home',
+                              HomeWidget.routeName,
                               context.mounted,
                               extra: <String, dynamic>{
                                 kTransitionInfoKey: TransitionInfo(
@@ -544,7 +568,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                   }
 
                                   context.goNamedAuth(
-                                    'Home',
+                                    HomeWidget.routeName,
                                     context.mounted,
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: TransitionInfo(

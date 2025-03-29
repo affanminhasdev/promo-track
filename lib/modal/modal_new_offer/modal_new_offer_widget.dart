@@ -199,6 +199,11 @@ class _ModalNewOfferWidgetState extends State<ModalNewOfferWidget>
 
                             var downloadUrls = <String>[];
                             try {
+                              showUploadMessage(
+                                context,
+                                'Uploading file...',
+                                showLoading: true,
+                              );
                               selectedUploadedFiles = selectedMedia
                                   .map((m) => FFUploadedFile(
                                         name: m.storagePath.split('/').last,
@@ -219,6 +224,8 @@ class _ModalNewOfferWidgetState extends State<ModalNewOfferWidget>
                                   .map((u) => u!)
                                   .toList();
                             } finally {
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
                               _model.isDataUploading = false;
                             }
                             if (selectedUploadedFiles.length ==
@@ -229,8 +236,11 @@ class _ModalNewOfferWidgetState extends State<ModalNewOfferWidget>
                                     selectedUploadedFiles.first;
                                 _model.uploadedFileUrl = downloadUrls.first;
                               });
+                              showUploadMessage(context, 'Success!');
                             } else {
                               safeSetState(() {});
+                              showUploadMessage(
+                                  context, 'Failed to upload data');
                               return;
                             }
                           }
@@ -250,29 +260,33 @@ class _ModalNewOfferWidgetState extends State<ModalNewOfferWidget>
                             width: 300.0,
                             child: Stack(
                               children: [
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: Text(
-                                    'Photo du produit',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Montserrat',
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          letterSpacing: 0.0,
-                                        ),
+                                if (_model.uploadedFileUrl == null ||
+                                    _model.uploadedFileUrl == '')
+                                  Align(
+                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                    child: Text(
+                                      'Photo du produit',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Montserrat',
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
                                   ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    _model.uploadedFileUrl,
-                                    width: 300.0,
-                                    height: 128.0,
-                                    fit: BoxFit.cover,
+                                if (_model.uploadedFileUrl != null &&
+                                    _model.uploadedFileUrl != '')
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(
+                                      _model.uploadedFileUrl,
+                                      width: 300.0,
+                                      height: 128.0,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -662,87 +676,22 @@ class _ModalNewOfferWidgetState extends State<ModalNewOfferWidget>
                       ].divide(SizedBox(height: 8.0)),
                     ),
                   ),
-                  Flexible(
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              width: 300.0,
-                              child: TextFormField(
-                                controller: _model.textController4,
-                                focusNode: _model.textFieldFocusNode4,
-                                autofocus: false,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  labelText: 'Prix de base',
-                                  labelStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Montserrat',
-                                        letterSpacing: 0.0,
-                                      ),
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Montserrat',
-                                        letterSpacing: 0.0,
-                                      ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0xFFB5B5B5),
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      letterSpacing: 0.0,
-                                    ),
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
-                                validator: _model.textController4Validator
-                                    .asValidator(context),
-                              ),
-                            ),
-                          ),
-                          Expanded(
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            width: 300.0,
                             child: TextFormField(
-                              controller: _model.textController5,
-                              focusNode: _model.textFieldFocusNode5,
+                              controller: _model.textController4,
+                              focusNode: _model.textFieldFocusNode4,
                               autofocus: false,
                               obscureText: false,
                               decoration: InputDecoration(
-                                labelText: 'Prix promotionnel',
+                                labelText: 'Prix de base',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
@@ -793,12 +742,73 @@ class _ModalNewOfferWidgetState extends State<ModalNewOfferWidget>
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                       decimal: true),
-                              validator: _model.textController5Validator
+                              validator: _model.textController4Validator
                                   .asValidator(context),
                             ),
                           ),
-                        ].divide(SizedBox(width: 16.0)),
-                      ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _model.textController5,
+                            focusNode: _model.textFieldFocusNode5,
+                            autofocus: false,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Prix promotionnel',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    fontFamily: 'Montserrat',
+                                    letterSpacing: 0.0,
+                                  ),
+                              hintStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    fontFamily: 'Montserrat',
+                                    letterSpacing: 0.0,
+                                  ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFFB5B5B5),
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).error,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).error,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Montserrat',
+                                  letterSpacing: 0.0,
+                                ),
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                            validator: _model.textController5Validator
+                                .asValidator(context),
+                          ),
+                        ),
+                      ].divide(SizedBox(width: 16.0)),
                     ),
                   ),
                   Padding(
@@ -934,6 +944,54 @@ class _ModalNewOfferWidgetState extends State<ModalNewOfferWidget>
                           ),
                         ),
                       ].divide(SizedBox(width: 16.0)),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Theme(
+                          data: ThemeData(
+                            checkboxTheme: CheckboxThemeData(
+                              visualDensity: VisualDensity.compact,
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                            ),
+                            unselectedWidgetColor: Color(0xFFB5B5B5),
+                          ),
+                          child: Checkbox(
+                            value: _model.trendingCheckboxValue ??= false,
+                            onChanged: (newValue) async {
+                              safeSetState(() =>
+                                  _model.trendingCheckboxValue = newValue!);
+                            },
+                            side: BorderSide(
+                              width: 2,
+                              color: Color(0xFFB5B5B5),
+                            ),
+                            activeColor: FlutterFlowTheme.of(context).primary,
+                            checkColor: FlutterFlowTheme.of(context).info,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              5.0, 0.0, 0.0, 0.0),
+                          child: Text(
+                            'offre tendance',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Montserrat',
+                                  letterSpacing: 0.0,
+                                ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
@@ -1183,6 +1241,7 @@ class _ModalNewOfferWidgetState extends State<ModalNewOfferWidget>
                                         _model.textFieldLinkTextController.text,
                                     codePromo: _model
                                         .textFieldPromoTextController.text,
+                                    isTrending: _model.trendingCheckboxValue,
                                   ));
 
                               await _model.shopChoose!.reference.update({

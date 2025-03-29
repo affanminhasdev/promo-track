@@ -661,6 +661,52 @@ class _ModalEditOfferWidgetState extends State<ModalEditOfferWidget>
                 ),
               ),
               Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Theme(
+                      data: ThemeData(
+                        checkboxTheme: CheckboxThemeData(
+                          visualDensity: VisualDensity.compact,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                        ),
+                        unselectedWidgetColor: Color(0xFFB5B5B5),
+                      ),
+                      child: Checkbox(
+                        value: _model.trendingCheckboxValue ??=
+                            widget!.offer!.isTrending,
+                        onChanged: (newValue) async {
+                          safeSetState(
+                              () => _model.trendingCheckboxValue = newValue!);
+                        },
+                        side: BorderSide(
+                          width: 2,
+                          color: Color(0xFFB5B5B5),
+                        ),
+                        activeColor: FlutterFlowTheme.of(context).primary,
+                        checkColor: FlutterFlowTheme.of(context).info,
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 0.0, 0.0),
+                      child: Text(
+                        'offre tendance',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Montserrat',
+                              letterSpacing: 0.0,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -874,6 +920,7 @@ class _ModalEditOfferWidgetState extends State<ModalEditOfferWidget>
                       }(),
                       link: _model.textFieldLinkTextController.text,
                       codePromo: _model.textFieldCodepromoTextController.text,
+                      isTrending: _model.trendingCheckboxValue,
                     ));
                     Navigator.pop(context);
                   },

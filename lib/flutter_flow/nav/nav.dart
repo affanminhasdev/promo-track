@@ -11,13 +11,14 @@ import '/auth/base_auth_user_provider.dart';
 
 import '/backend/push_notifications/push_notifications_handler.dart'
     show PushNotificationsHandler;
-import '/index.dart';
 import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/lat_lng.dart';
 import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'serialization_util.dart';
+
+import '/index.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -85,73 +86,73 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? IndexWidget() : HomeWidget(),
+          appStateNotifier.loggedIn ? IndexWidget() : OnBoardViewWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? IndexWidget() : HomeWidget(),
+              appStateNotifier.loggedIn ? IndexWidget() : OnBoardViewWidget(),
         ),
         FFRoute(
-          name: 'Index',
-          path: '/index',
+          name: IndexWidget.routeName,
+          path: IndexWidget.routePath,
           builder: (context, params) => IndexWidget(),
         ),
         FFRoute(
-          name: 'Home',
-          path: '/home',
+          name: HomeWidget.routeName,
+          path: HomeWidget.routePath,
           builder: (context, params) => HomeWidget(),
         ),
         FFRoute(
-          name: 'Shops',
-          path: '/shops',
+          name: ShopsWidget.routeName,
+          path: ShopsWidget.routePath,
           builder: (context, params) => ShopsWidget(),
         ),
         FFRoute(
-          name: 'Wishlist',
-          path: '/wishlist',
+          name: WishlistWidget.routeName,
+          path: WishlistWidget.routePath,
           builder: (context, params) => WishlistWidget(),
         ),
         FFRoute(
-          name: 'Profile',
-          path: '/profile',
+          name: ProfileWidget.routeName,
+          path: ProfileWidget.routePath,
           builder: (context, params) => ProfileWidget(),
         ),
         FFRoute(
-          name: 'Login',
-          path: '/login',
+          name: LoginWidget.routeName,
+          path: LoginWidget.routePath,
           builder: (context, params) => LoginWidget(),
         ),
         FFRoute(
-          name: 'Signup',
-          path: '/signup',
+          name: SignupWidget.routeName,
+          path: SignupWidget.routePath,
           builder: (context, params) => SignupWidget(),
         ),
         FFRoute(
-          name: 'PasswordReset',
-          path: '/passwordReset',
+          name: PasswordResetWidget.routeName,
+          path: PasswordResetWidget.routePath,
           builder: (context, params) => PasswordResetWidget(),
         ),
         FFRoute(
-          name: 'Admin_dashboard',
-          path: '/dashboard',
+          name: AdminDashboardWidget.routeName,
+          path: AdminDashboardWidget.routePath,
           requireAuth: true,
           builder: (context, params) => AdminDashboardWidget(),
         ),
         FFRoute(
-          name: 'Admin',
-          path: '/admin',
+          name: AdminWidget.routeName,
+          path: AdminWidget.routePath,
           builder: (context, params) => AdminWidget(),
         ),
         FFRoute(
-          name: 'Signup2',
-          path: '/signup2',
+          name: Signup2Widget.routeName,
+          path: Signup2Widget.routePath,
           builder: (context, params) => Signup2Widget(),
         ),
         FFRoute(
-          name: 'itemFiltered',
-          path: '/itemFiltered',
+          name: ItemFilteredWidget.routeName,
+          path: ItemFilteredWidget.routePath,
           builder: (context, params) => ItemFilteredWidget(
             category: params.getParam(
               'category',
@@ -160,8 +161,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Advert',
-          path: '/advert',
+          name: AdvertWidget.routeName,
+          path: AdvertWidget.routePath,
           builder: (context, params) => AdvertWidget(
             advertRef: params.getParam(
               'advertRef',
@@ -170,8 +171,55 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['advert'],
             ),
           ),
+        ),
+        FFRoute(
+          name: AllOffersViewWidget.routeName,
+          path: AllOffersViewWidget.routePath,
+          builder: (context, params) => AllOffersViewWidget(
+            type: params.getParam(
+              'type',
+              ParamType.String,
+            ),
+            isFromTrending: params.getParam(
+              'isFromTrending',
+              ParamType.bool,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: HomeCopyWidget.routeName,
+          path: HomeCopyWidget.routePath,
+          builder: (context, params) => HomeCopyWidget(),
+        ),
+        FFRoute(
+          name: OnBoardViewWidget.routeName,
+          path: OnBoardViewWidget.routePath,
+          builder: (context, params) => OnBoardViewWidget(),
+        ),
+        FFRoute(
+          name: DiscoverViewWidget.routeName,
+          path: DiscoverViewWidget.routePath,
+          builder: (context, params) => DiscoverViewWidget(),
+        ),
+        FFRoute(
+          name: AllOfferNearbyViewWidget.routeName,
+          path: AllOfferNearbyViewWidget.routePath,
+          builder: (context, params) => AllOfferNearbyViewWidget(),
+        ),
+        FFRoute(
+          name: AdvertDiscoveryWidget.routeName,
+          path: AdvertDiscoveryWidget.routePath,
+          builder: (context, params) => AdvertDiscoveryWidget(
+            advertDiscoveryRef: params.getParam(
+              'advertDiscoveryRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['advert_discovery'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
+      observers: [routeObserver],
     );
 
 extension NavParamExtensions on Map<String, String?> {
@@ -342,7 +390,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/home';
+            return '/onBoardView';
           }
           return null;
         },

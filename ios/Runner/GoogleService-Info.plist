@@ -32,5 +32,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:967152276842:ios:8be774937ccca6f86f4113</string>
+	<key>DATABASE_URL</key>
+	<string>https://localeaz-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

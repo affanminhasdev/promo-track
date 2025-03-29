@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,9 @@ export 'admin_model.dart';
 
 class AdminWidget extends StatefulWidget {
   const AdminWidget({super.key});
+
+  static String routeName = 'Admin';
+  static String routePath = '/admin';
 
   @override
   State<AdminWidget> createState() => _AdminWidgetState();
@@ -266,7 +270,8 @@ class _AdminWidgetState extends State<AdminWidget>
                                       currentUserDocument?.type, '') ==
                                   'admin') {
                                 context.goNamedAuth(
-                                    'Admin_dashboard', context.mounted);
+                                    AdminDashboardWidget.routeName,
+                                    context.mounted);
                               } else {
                                 GoRouter.of(context).prepareAuthEvent();
                                 await authManager.signOut();

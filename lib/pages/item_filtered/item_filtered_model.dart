@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/component/navbar/navbar_widget.dart';
-import '/component/offer_card/offer_card_widget.dart';
+import '/components/navbar/navbar_widget.dart';
+import '/components/offer_card/offer_card_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';

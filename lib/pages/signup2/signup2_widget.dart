@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:math';
 import 'dart:ui';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,9 @@ export 'signup2_model.dart';
 
 class Signup2Widget extends StatefulWidget {
   const Signup2Widget({super.key});
+
+  static String routeName = 'Signup2';
+  static String routePath = '/signup2';
 
   @override
   State<Signup2Widget> createState() => _Signup2WidgetState();
@@ -329,7 +333,7 @@ class _Signup2WidgetState extends State<Signup2Widget>
                                   safeSetState(() {});
 
                                   context.goNamed(
-                                    'Home',
+                                    HomeWidget.routeName,
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: TransitionInfo(
                                         hasTransition: true,

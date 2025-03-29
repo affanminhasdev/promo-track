@@ -1,6 +1,6 @@
 import '/backend/backend.dart';
-import '/component/empty_shop/empty_shop_widget.dart';
-import '/component/navbar/navbar_widget.dart';
+import '/components/empty_shop/empty_shop_widget.dart';
+import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -20,6 +21,9 @@ export 'shops_model.dart';
 
 class ShopsWidget extends StatefulWidget {
   const ShopsWidget({super.key});
+
+  static String routeName = 'Shops';
+  static String routePath = '/shops';
 
   @override
   State<ShopsWidget> createState() => _ShopsWidgetState();
@@ -218,7 +222,7 @@ class _ShopsWidgetState extends State<ShopsWidget>
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
                                       context.pushNamed(
-                                        'itemFiltered',
+                                        ItemFilteredWidget.routeName,
                                         queryParameters: {
                                           'category': serializeParam(
                                             botiqueCatItem,
@@ -240,7 +244,7 @@ class _ShopsWidgetState extends State<ShopsWidget>
                                               if (botiqueCatItem == 'Mode') {
                                                 return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/pu4f9gmve1ey/1.png';
                                               } else if (botiqueCatItem ==
-                                                  'Technologie & Electronique') {
+                                                  'Technologie') {
                                                 return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/97k3jxicqdi4/2.png';
                                               } else if (botiqueCatItem ==
                                                   'Voyage') {
@@ -255,7 +259,7 @@ class _ShopsWidgetState extends State<ShopsWidget>
                                                   'Sport') {
                                                 return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/e51djb1rz140/4.png';
                                               } else if (botiqueCatItem ==
-                                                  'Finance  & Education') {
+                                                  'Finance  & Éducation') {
                                                 return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/6cif7wk1z3fv/6.png';
                                               } else {
                                                 return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/6cif7wk1z3fv/6.png';
@@ -287,7 +291,7 @@ class _ShopsWidgetState extends State<ShopsWidget>
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
                                     context.pushNamed(
-                                      'itemFiltered',
+                                      ItemFilteredWidget.routeName,
                                       queryParameters: {
                                         'category': serializeParam(
                                           FFAppConstants

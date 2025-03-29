@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -7,6 +8,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -46,6 +48,13 @@ class _ModalOfferDetailsWidgetState extends State<ModalOfferDetailsWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => ModalOfferDetailsModel());
+
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.isFollowed = (currentUserDocument?.followedBrands?.toList() ?? [])
+          .contains(widget!.offer?.shopRef);
+      safeSetState(() {});
+    });
 
     animationsMap.addAll({
       'columnOnPageLoadAnimation': AnimationInfo(
@@ -89,7 +98,7 @@ class _ModalOfferDetailsWidgetState extends State<ModalOfferDetailsWidget>
       ),
       child: Container(
         width: double.infinity,
-        height: 350.0,
+        height: 450.0,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).primaryBackground,
           borderRadius: BorderRadius.only(
@@ -188,6 +197,80 @@ class _ModalOfferDetailsWidgetState extends State<ModalOfferDetailsWidget>
                         ],
                       ),
                     ),
+                    if (!_model.isFollowed)
+                      FFButtonWidget(
+                        onPressed: () async {
+                          await currentUserReference!.update({
+                            ...mapToFirestore(
+                              {
+                                'followed_brands': FieldValue.arrayUnion(
+                                    [widget!.offer?.shopRef]),
+                              },
+                            ),
+                          });
+                          _model.isFollowed = true;
+                          safeSetState(() {});
+                        },
+                        text: 'Suivre',
+                        icon: Icon(
+                          Icons.add,
+                          color: FlutterFlowTheme.of(context).primary,
+                          size: 15.0,
+                        ),
+                        options: FFButtonOptions(
+                          height: 35.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconAlignment: IconAlignment.start,
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: Colors.white,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontFamily: 'Montserrat',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    letterSpacing: 0.0,
+                                  ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                      ),
+                    if (_model.isFollowed)
+                      FFButtonWidget(
+                        onPressed: () async {
+                          await currentUserReference!.update({
+                            ...mapToFirestore(
+                              {
+                                'followed_brands': FieldValue.arrayRemove(
+                                    [widget!.offer?.shopRef]),
+                              },
+                            ),
+                          });
+                          _model.isFollowed = false;
+                          safeSetState(() {});
+                        },
+                        text: 'Suivi',
+                        icon: Icon(
+                          Icons.check,
+                          size: 15.0,
+                        ),
+                        options: FFButtonOptions(
+                          height: 35.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 1.0, 0.0),
+                          color: FlutterFlowTheme.of(context).primary,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                  ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                      ),
                   ].divide(SizedBox(width: 16.0)),
                 ),
               ),

@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:math';
 import 'dart:ui';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -140,7 +141,7 @@ class _NavbarWidgetState extends State<NavbarWidget>
                 safeSetState(() {});
 
                 context.goNamed(
-                  'Home',
+                  HomeWidget.routeName,
                   extra: <String, dynamic>{
                     kTransitionInfoKey: TransitionInfo(
                       hasTransition: true,
@@ -208,7 +209,7 @@ class _NavbarWidgetState extends State<NavbarWidget>
                     safeSetState(() {});
 
                     context.goNamed(
-                      'Shops',
+                      DiscoverViewWidget.routeName,
                       extra: <String, dynamic>{
                         kTransitionInfoKey: TransitionInfo(
                           hasTransition: true,
@@ -279,7 +280,7 @@ class _NavbarWidgetState extends State<NavbarWidget>
                       safeSetState(() {});
 
                       context.goNamed(
-                        'Wishlist',
+                        WishlistWidget.routeName,
                         extra: <String, dynamic>{
                           kTransitionInfoKey: TransitionInfo(
                             hasTransition: true,
@@ -289,7 +290,7 @@ class _NavbarWidgetState extends State<NavbarWidget>
                         },
                       );
                     } else {
-                      context.pushNamed('Login');
+                      context.pushNamed(LoginWidget.routeName);
                     }
                   },
                   child: Container(
@@ -349,7 +350,7 @@ class _NavbarWidgetState extends State<NavbarWidget>
                 safeSetState(() {});
 
                 context.goNamed(
-                  'Profile',
+                  ProfileWidget.routeName,
                   extra: <String, dynamic>{
                     kTransitionInfoKey: TransitionInfo(
                       hasTransition: true,

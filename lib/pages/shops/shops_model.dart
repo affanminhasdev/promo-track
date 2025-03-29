@@ -1,6 +1,6 @@
 import '/backend/backend.dart';
-import '/component/empty_shop/empty_shop_widget.dart';
-import '/component/navbar/navbar_widget.dart';
+import '/components/empty_shop/empty_shop_widget.dart';
+import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'shops_widget.dart' show ShopsWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

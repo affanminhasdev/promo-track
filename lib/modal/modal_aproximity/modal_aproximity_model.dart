@@ -1,6 +1,6 @@
 import '/backend/backend.dart';
-import '/component/empty_list/empty_list_widget.dart';
-import '/component/offer_card/offer_card_widget.dart';
+import '/components/empty_list/empty_list_widget.dart';
+import '/components/offer_card/offer_card_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';

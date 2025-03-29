@@ -4,7 +4,7 @@ import 'package:algolia/algolia.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-import '../backend.dart';
+import '/backend/backend.dart';
 
 export 'package:algolia/algolia.dart';
 

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'serialization_util.dart';
-import '../backend.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -53,11 +53,19 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
       final parametersBuilder = parametersBuilderMap[initialPageName];
       if (parametersBuilder != null) {
         final parameterData = await parametersBuilder(initialParameterData);
-        context.pushNamed(
-          initialPageName,
-          pathParameters: parameterData.pathParameters,
-          extra: parameterData.extra,
-        );
+        if (mounted) {
+          context.pushNamed(
+            initialPageName,
+            pathParameters: parameterData.pathParameters,
+            extra: parameterData.extra,
+          );
+        } else {
+          appNavigatorKey.currentContext?.pushNamed(
+            initialPageName,
+            pathParameters: parameterData.pathParameters,
+            extra: parameterData.extra,
+          );
+        }
       }
     } catch (e) {
       print('Error: $e');
@@ -130,6 +138,22 @@ final parametersBuilderMap =
   'Advert': (data) async => ParameterData(
         allParams: {
           'advertRef': getParameter<DocumentReference>(data, 'advertRef'),
+        },
+      ),
+  'AllOffersView': (data) async => ParameterData(
+        allParams: {
+          'type': getParameter<String>(data, 'type'),
+          'isFromTrending': getParameter<bool>(data, 'isFromTrending'),
+        },
+      ),
+  'HomeCopy': ParameterData.none(),
+  'OnBoardView': ParameterData.none(),
+  'DiscoverView': ParameterData.none(),
+  'AllOfferNearbyView': ParameterData.none(),
+  'AdvertDiscovery': (data) async => ParameterData(
+        allParams: {
+          'advertDiscoveryRef':
+              getParameter<DocumentReference>(data, 'advertDiscoveryRef'),
         },
       ),
 };

@@ -6,7 +6,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
+import '/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +21,9 @@ export 'signup_model.dart';
 
 class SignupWidget extends StatefulWidget {
   const SignupWidget({super.key});
+
+  static String routeName = 'Signup';
+  static String routePath = '/signup';
 
   @override
   State<SignupWidget> createState() => _SignupWidgetState();
@@ -167,6 +172,11 @@ class _SignupWidgetState extends State<SignupWidget>
                       child: TextFormField(
                         controller: _model.emailTextController,
                         focusNode: _model.textFieldFocusNode1,
+                        onChanged: (_) => EasyDebounce.debounce(
+                          '_model.emailTextController',
+                          Duration(milliseconds: 2000),
+                          () => safeSetState(() {}),
+                        ),
                         autofocus: false,
                         obscureText: false,
                         decoration: InputDecoration(
@@ -225,6 +235,11 @@ class _SignupWidgetState extends State<SignupWidget>
                       child: TextFormField(
                         controller: _model.passwordTextController,
                         focusNode: _model.textFieldFocusNode2,
+                        onChanged: (_) => EasyDebounce.debounce(
+                          '_model.passwordTextController',
+                          Duration(milliseconds: 2000),
+                          () => safeSetState(() {}),
+                        ),
                         autofocus: false,
                         obscureText: !_model.passwordVisibility,
                         decoration: InputDecoration(
@@ -325,7 +340,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                       ));
 
                                   context.goNamedAuth(
-                                      'Signup2', context.mounted);
+                                      Signup2Widget.routeName, context.mounted);
                                 },
                           text: 'Inscription',
                           options: FFButtonOptions(
@@ -363,7 +378,7 @@ class _SignupWidgetState extends State<SignupWidget>
                         highlightColor: Colors.transparent,
                         onTap: () async {
                           context.goNamed(
-                            'Login',
+                            LoginWidget.routeName,
                             extra: <String, dynamic>{
                               kTransitionInfoKey: TransitionInfo(
                                 hasTransition: true,
@@ -435,7 +450,8 @@ class _SignupWidgetState extends State<SignupWidget>
                               isSignupDone: false,
                             ));
 
-                            context.goNamedAuth('Signup2', context.mounted);
+                            context.goNamedAuth(
+                                Signup2Widget.routeName, context.mounted);
                           },
                           text: 'S\'inscrire avec Google',
                           icon: FaIcon(
@@ -448,7 +464,7 @@ class _SignupWidgetState extends State<SignupWidget>
                             padding: EdgeInsets.all(0.0),
                             iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
-                            color: Color(0xFF166CFF),
+                            color: Color(0xFF5962FF),
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
@@ -492,7 +508,7 @@ class _SignupWidgetState extends State<SignupWidget>
                                   ));
 
                                   context.goNamedAuth(
-                                      'Signup2', context.mounted);
+                                      Signup2Widget.routeName, context.mounted);
                                 },
                                 text: 'Continuer avec Apple',
                                 icon: Icon(

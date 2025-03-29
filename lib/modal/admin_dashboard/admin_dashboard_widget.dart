@@ -11,6 +11,7 @@ import '/modal/modal_new_advert/modal_new_advert_widget.dart';
 import '/modal/modal_new_offer/modal_new_offer_widget.dart';
 import '/modal/modal_new_shop/modal_new_shop_widget.dart';
 import 'dart:ui';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,9 @@ export 'admin_dashboard_model.dart';
 
 class AdminDashboardWidget extends StatefulWidget {
   const AdminDashboardWidget({super.key});
+
+  static String routeName = 'Admin_dashboard';
+  static String routePath = '/dashboard';
 
   @override
   State<AdminDashboardWidget> createState() => _AdminDashboardWidgetState();
@@ -3214,7 +3218,8 @@ class _AdminDashboardWidgetState extends State<AdminDashboardWidget> {
                           await authManager.signOut();
                           GoRouter.of(context).clearRedirectLocation();
 
-                          context.goNamedAuth('Admin', context.mounted);
+                          context.goNamedAuth(
+                              AdminWidget.routeName, context.mounted);
                         },
                         text: 'Retour',
                         options: FFButtonOptions(

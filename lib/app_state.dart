@@ -48,6 +48,13 @@ class FFAppState extends ChangeNotifier {
               .toList() ??
           _offerFilterList;
     });
+    _safeInit(() {
+      _locationAccess = prefs.getBool('ff_locationAccess') ?? _locationAccess;
+    });
+    _safeInit(() {
+      _notificationsEnabled =
+          prefs.getBool('ff_notificationsEnabled') ?? _notificationsEnabled;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -189,6 +196,88 @@ class FFAppState extends ChangeNotifier {
   double get offersCount => _offersCount;
   set offersCount(double value) {
     _offersCount = value;
+  }
+
+  List<OfferStruct> _offers = [];
+  List<OfferStruct> get offers => _offers;
+  set offers(List<OfferStruct> value) {
+    _offers = value;
+  }
+
+  void addToOffers(OfferStruct value) {
+    offers.add(value);
+  }
+
+  void removeFromOffers(OfferStruct value) {
+    offers.remove(value);
+  }
+
+  void removeAtIndexFromOffers(int index) {
+    offers.removeAt(index);
+  }
+
+  void updateOffersAtIndex(
+    int index,
+    OfferStruct Function(OfferStruct) updateFn,
+  ) {
+    offers[index] = updateFn(_offers[index]);
+  }
+
+  void insertAtIndexInOffers(int index, OfferStruct value) {
+    offers.insert(index, value);
+  }
+
+  /// Store the preference like if user is allowed to get his location
+  bool _locationAccess = false;
+  bool get locationAccess => _locationAccess;
+  set locationAccess(bool value) {
+    _locationAccess = value;
+    prefs.setBool('ff_locationAccess', value);
+  }
+
+  /// store the preference if user allowed the notification preference to send
+  /// him a notification.
+  bool _notificationsEnabled = true;
+  bool get notificationsEnabled => _notificationsEnabled;
+  set notificationsEnabled(bool value) {
+    _notificationsEnabled = value;
+    prefs.setBool('ff_notificationsEnabled', value);
+  }
+
+  List<String> _onboardingImages = [
+    'https://firebasestorage.googleapis.com/v0/b/localeaz.appspot.com/o/onboarding%2Fonboarding_1.svg?alt=media&token=7e081a7b-60d3-4e20-9484-df0bed0b5d51',
+    'https://firebasestorage.googleapis.com/v0/b/localeaz.appspot.com/o/onboarding%2Fonboarding_2.svg?alt=media&token=84cb5db1-3ea1-4388-a7d8-ae788f09e31b',
+    'https://firebasestorage.googleapis.com/v0/b/localeaz.appspot.com/o/onboarding%2Fonboarding_3.svg?alt=media&token=07b6a54a-4790-4cf2-8dcf-c22b26b65546',
+    'https://firebasestorage.googleapis.com/v0/b/localeaz.appspot.com/o/onboarding%2Fonboarding_4.svg?alt=media&token=40295462-9b6f-4f8e-b1b2-ba6352cc98d3',
+    'https://firebasestorage.googleapis.com/v0/b/localeaz.appspot.com/o/onboarding%2Fonboarding_5.svg?alt=media&token=0730fff2-f711-44f6-9555-79dfd57e1568',
+    'https://firebasestorage.googleapis.com/v0/b/localeaz.appspot.com/o/onboarding%2Fonboarding_6.svg?alt=media&token=88a7a6b1-cf04-4b19-aecc-f2683c252af5'
+  ];
+  List<String> get onboardingImages => _onboardingImages;
+  set onboardingImages(List<String> value) {
+    _onboardingImages = value;
+  }
+
+  void addToOnboardingImages(String value) {
+    onboardingImages.add(value);
+  }
+
+  void removeFromOnboardingImages(String value) {
+    onboardingImages.remove(value);
+  }
+
+  void removeAtIndexFromOnboardingImages(int index) {
+    onboardingImages.removeAt(index);
+  }
+
+  void updateOnboardingImagesAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    onboardingImages[index] = updateFn(_onboardingImages[index]);
+  }
+
+  void insertAtIndexInOnboardingImages(int index, String value) {
+    onboardingImages.insert(index, value);
   }
 }
 

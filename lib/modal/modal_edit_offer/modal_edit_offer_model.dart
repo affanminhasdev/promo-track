@@ -58,6 +58,8 @@ class ModalEditOfferModel extends FlutterFlowModel<ModalEditOfferWidget> {
   TextEditingController? textFieldCodepromoTextController;
   String? Function(BuildContext, String?)?
       textFieldCodepromoTextControllerValidator;
+  // State field(s) for TrendingCheckbox widget.
+  bool? trendingCheckboxValue;
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController;
   String? get choiceChipsValue =>

@@ -1,5 +1,5 @@
 import '/backend/backend.dart';
-import '/component/shop_card/shop_card_widget.dart';
+import '/components/shop_card/shop_card_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';

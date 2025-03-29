@@ -1,8 +1,12 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/index.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +16,9 @@ export 'index_model.dart';
 
 class IndexWidget extends StatefulWidget {
   const IndexWidget({super.key});
+
+  static String routeName = 'Index';
+  static String routePath = '/index';
 
   @override
   State<IndexWidget> createState() => _IndexWidgetState();
@@ -29,9 +36,16 @@ class _IndexWidgetState extends State<IndexWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (valueOrDefault(currentUserDocument?.type, '') == 'customer') {
+      _model.userCollection = await queryUsersRecordOnce(
+        queryBuilder: (usersRecord) => usersRecord.where(
+          'email',
+          isEqualTo: currentUserEmail,
+        ),
+        singleRecord: true,
+      ).then((s) => s.firstOrNull);
+      if (_model.userCollection?.type == 'customer') {
         context.goNamedAuth(
-          'Home',
+          HomeWidget.routeName,
           context.mounted,
           extra: <String, dynamic>{
             kTransitionInfoKey: TransitionInfo(
@@ -45,6 +59,18 @@ class _IndexWidgetState extends State<IndexWidget> {
         GoRouter.of(context).prepareAuthEvent();
         await authManager.signOut();
         GoRouter.of(context).clearRedirectLocation();
+
+        context.goNamedAuth(
+          LoginWidget.routeName,
+          context.mounted,
+          extra: <String, dynamic>{
+            kTransitionInfoKey: TransitionInfo(
+              hasTransition: true,
+              transitionType: PageTransitionType.fade,
+              duration: Duration(milliseconds: 0),
+            ),
+          },
+        );
       }
     });
 

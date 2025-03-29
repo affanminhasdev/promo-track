@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/component/navbar/navbar_widget.dart';
-import '/component/offer_card/offer_card_widget.dart';
+import '/components/navbar/navbar_widget.dart';
+import '/components/offer_card/offer_card_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -28,6 +28,9 @@ class ItemFilteredWidget extends StatefulWidget {
   });
 
   final String? category;
+
+  static String routeName = 'itemFiltered';
+  static String routePath = '/itemFiltered';
 
   @override
   State<ItemFilteredWidget> createState() => _ItemFilteredWidgetState();
@@ -133,7 +136,7 @@ class _ItemFilteredWidgetState extends State<ItemFilteredWidget>
                                     if (widget!.category == 'Mode') {
                                       return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/pu4f9gmve1ey/1.png';
                                     } else if (widget!.category ==
-                                        'Technologie & Electronique') {
+                                        'Technologie') {
                                       return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/97k3jxicqdi4/2.png';
                                     } else if (widget!.category == 'Voyage') {
                                       return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/poxc99xgmmrf/3.png';
@@ -160,7 +163,7 @@ class _ItemFilteredWidgetState extends State<ItemFilteredWidget>
                                         if (widget!.category == 'Mode') {
                                           return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/pu4f9gmve1ey/1.png';
                                         } else if (widget!.category ==
-                                            'Technologie & Electronique') {
+                                            'Technologie') {
                                           return 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/localeaz-qccdjt/assets/97k3jxicqdi4/2.png';
                                         } else if (widget!.category ==
                                             'Voyage') {
@@ -339,6 +342,50 @@ class _ItemFilteredWidgetState extends State<ItemFilteredWidget>
                                         likeable: true,
                                         offer: listViewOfferRecord,
                                         isOwner: false,
+                                        callback: () async {
+                                          await listViewOfferRecord.reference
+                                              .update({
+                                            ...mapToFirestore(
+                                              {
+                                                'click_nb':
+                                                    FieldValue.increment(1),
+                                              },
+                                            ),
+                                          });
+                                          await showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            context: context,
+                                            builder: (context) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                  FocusManager
+                                                      .instance.primaryFocus
+                                                      ?.unfocus();
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      MediaQuery.viewInsetsOf(
+                                                          context),
+                                                  child: Container(
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .height *
+                                                        0.5,
+                                                    child:
+                                                        ModalOfferDetailsWidget(
+                                                      offer:
+                                                          listViewOfferRecord,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ).then(
+                                              (value) => safeSetState(() {}));
+                                        },
                                       ),
                                     ),
                                   );

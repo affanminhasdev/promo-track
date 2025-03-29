@@ -1,6 +1,6 @@
 import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
-import '/component/navbar/navbar_widget.dart';
+import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -13,6 +13,7 @@ import '/modal/modal_mention_legal/modal_mention_legal_widget.dart';
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
+import '/index.dart';
 import 'profile_widget.dart' show ProfileWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -30,6 +31,10 @@ class ProfileModel extends FlutterFlowModel<ProfileWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  // State field(s) for Switch widget.
+  bool? switchValue1;
+  // State field(s) for Switch widget.
+  bool? switchValue2;
   // Model for Navbar component.
   late NavbarModel navbarModel;
 

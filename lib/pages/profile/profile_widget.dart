@@ -1,6 +1,6 @@
 import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
-import '/component/navbar/navbar_widget.dart';
+import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -13,6 +13,7 @@ import '/modal/modal_mention_legal/modal_mention_legal_widget.dart';
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,9 @@ export 'profile_model.dart';
 
 class ProfileWidget extends StatefulWidget {
   const ProfileWidget({super.key});
+
+  static String routeName = 'Profile';
+  static String routePath = '/profile';
 
   @override
   State<ProfileWidget> createState() => _ProfileWidgetState();
@@ -58,6 +62,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
     _model.textController ??= TextEditingController(text: currentUserEmail);
     _model.textFieldFocusNode ??= FocusNode();
 
+    _model.switchValue1 = FFAppState().notificationsEnabled;
+    _model.switchValue2 = FFAppState().locationAccess;
     animationsMap.addAll({
       'textOnPageLoadAnimation': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
@@ -100,6 +106,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -235,7 +243,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 onTap: () async {
                                   HapticFeedback.selectionClick();
 
-                                  context.pushNamed('Signup');
+                                  context.pushNamed(SignupWidget.routeName);
                                 },
                                 child: Container(
                                   width: double.infinity,
@@ -295,7 +303,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 onTap: () async {
                                   HapticFeedback.selectionClick();
 
-                                  context.pushNamed('Login');
+                                  context.pushNamed(LoginWidget.routeName);
                                 },
                                 child: Container(
                                   width: double.infinity,
@@ -355,7 +363,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 onTap: () async {
                                   HapticFeedback.selectionClick();
 
-                                  context.pushNamed('PasswordReset');
+                                  context
+                                      .pushNamed(PasswordResetWidget.routeName);
                                 },
                                 child: Container(
                                   width: double.infinity,
@@ -723,6 +732,230 @@ class _ProfileWidgetState extends State<ProfileWidget>
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                16.0, 0.0, 16.0, 0.0),
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                HapticFeedback.selectionClick();
+                                await showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        FocusScope.of(context).unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            MediaQuery.viewInsetsOf(context),
+                                        child: Container(
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.8,
+                                          child: ModalCommercantWidget(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => safeSetState(() {}));
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 20.0,
+                                      color: Color(0x1A000000),
+                                      offset: Offset(
+                                        0.0,
+                                        4.0,
+                                      ),
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 8.0, 12.0, 8.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 2.0),
+                                        child: Text(
+                                          'Autoriser les notifications',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Montserrat',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                letterSpacing: 0.0,
+                                              ),
+                                        ),
+                                      ),
+                                      Transform.scale(
+                                        scaleX: 0.7,
+                                        scaleY: 0.7,
+                                        child: Switch.adaptive(
+                                          value: _model.switchValue1!,
+                                          onChanged: (newValue) async {
+                                            safeSetState(() => _model
+                                                .switchValue1 = newValue!);
+                                            if (newValue!) {
+                                              FFAppState()
+                                                  .notificationsEnabled = true;
+                                              safeSetState(() {});
+                                            } else {
+                                              FFAppState()
+                                                  .notificationsEnabled = false;
+                                              safeSetState(() {});
+                                            }
+                                          },
+                                          activeColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          activeTrackColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          inactiveTrackColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .alternate,
+                                          inactiveThumbColor: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                16.0, 0.0, 16.0, 0.0),
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                HapticFeedback.selectionClick();
+                                await showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        FocusScope.of(context).unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            MediaQuery.viewInsetsOf(context),
+                                        child: Container(
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.8,
+                                          child: ModalCommercantWidget(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => safeSetState(() {}));
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 20.0,
+                                      color: Color(0x1A000000),
+                                      offset: Offset(
+                                        0.0,
+                                        4.0,
+                                      ),
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 8.0, 12.0, 8.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 2.0),
+                                        child: Text(
+                                          'Autoriser la localisation',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Montserrat',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                letterSpacing: 0.0,
+                                              ),
+                                        ),
+                                      ),
+                                      Transform.scale(
+                                        scaleX: 0.7,
+                                        scaleY: 0.7,
+                                        child: Switch.adaptive(
+                                          value: _model.switchValue2!,
+                                          onChanged: (newValue) async {
+                                            safeSetState(() => _model
+                                                .switchValue2 = newValue!);
+                                            if (newValue!) {
+                                              FFAppState().locationAccess =
+                                                  true;
+                                              safeSetState(() {});
+                                            } else {
+                                              FFAppState().locationAccess =
+                                                  false;
+                                              safeSetState(() {});
+                                            }
+                                          },
+                                          activeColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          activeTrackColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          inactiveTrackColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .alternate,
+                                          inactiveThumbColor: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                           if (loggedIn)
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
@@ -742,7 +975,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                   safeSetState(() {});
 
                                   context.goNamedAuth(
-                                    'Home',
+                                    LoginWidget.routeName,
                                     context.mounted,
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: TransitionInfo(

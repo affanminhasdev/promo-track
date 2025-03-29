@@ -119,3 +119,17 @@ bool areListsIdenticals(
 String stringToImagePath(String pathString) {
   return pathString;
 }
+
+String? checkExpireDate(
+  DateTime expireDateTime,
+  String formatted,
+) {
+  final now = DateTime.now();
+
+  // Check if the date has passed.
+  if (expireDateTime.isBefore(now)) {
+    return "Expired";
+  }
+
+  return formatted;
+}
