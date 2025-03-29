@@ -126,7 +126,7 @@ String? checkExpireDate(
 ) {
   final now = DateTime.now();
 
-  // Check if the date has passed.
+  // Check if the date has passed
   if (expireDateTime.isBefore(now)) {
     return "Expired";
   }

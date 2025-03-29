@@ -61,6 +61,8 @@ class _DiscoverViewWidgetState extends State<DiscoverViewWidget> {
       safeSetState(() {});
     });
 
+    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
+        .then((loc) => safeSetState(() => currentUserLocationValue = loc));
     if (!isWeb) {
       _keyboardVisibilitySubscription =
           KeyboardVisibilityController().onChange.listen((bool visible) {
@@ -88,6 +90,23 @@ class _DiscoverViewWidgetState extends State<DiscoverViewWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (currentUserLocationValue == null) {
+      return Container(
+        color: FlutterFlowTheme.of(context).primaryBackground,
+        child: Center(
+          child: SizedBox(
+            width: 50.0,
+            height: 50.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                FlutterFlowTheme.of(context).primary,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -974,24 +993,17 @@ class _DiscoverViewWidgetState extends State<DiscoverViewWidget> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 5.0,
-                                                                0.0, 0.0),
-                                                    child: Text(
-                                                      '${offerListItem.shopDistanceKm.toStringAsFixed(2)} km',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 20.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
+                                                  Container(
+                                                    width: double.infinity,
+                                                    height: 40.0,
+                                                    child: custom_widgets
+                                                        .DistanceInKM(
+                                                      width: double.infinity,
+                                                      height: 40.0,
+                                                      geoHash: offerListItem
+                                                          .shopGeohash,
+                                                      currentLocation:
+                                                          currentUserLocationValue!,
                                                     ),
                                                   ),
                                                   InkWell(
